@@ -44,14 +44,9 @@ html, body {
 .app-title   { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
 .app-subtitle { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; }
 
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
+.header-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 
-.last-updated       { font-size: 12px; color: var(--muted); }
+.last-updated        { font-size: 12px; color: var(--muted); }
 .last-updated strong { color: var(--text); }
 
 .app-main {
@@ -106,9 +101,8 @@ html, body {
   padding: 20px 24px;
 }
 
-.section-title { font-size: 15px; font-weight: 600; margin-bottom: 16px; }
-
-.chart-wrapper { position: relative; height: 280px; }
+.section-title  { font-size: 15px; font-weight: 600; margin-bottom: 16px; }
+.chart-wrapper  { position: relative; height: 280px; }
 
 /* ── Table Section ────────────────────────────────────────────────────── */
 .table-section {
@@ -138,12 +132,7 @@ html, body {
   background: var(--surface);
 }
 
-.filter-row {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
+.filter-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
 
 .filter-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
 
@@ -160,7 +149,7 @@ html, body {
 }
 
 .filter-tab:hover        { border-color: var(--blue); color: var(--blue); }
-.filter-tab.active       { font-weight: 600; background: rgba(59,130,246,0.1); }
+.filter-tab.active       { font-weight: 600; border-color: var(--blue); color: var(--blue); background: rgba(59,130,246,0.1); }
 .filter-tab[data-filter="FLAGGED"].active { border-color: var(--red);    color: var(--red);    background: rgba(239,68,68,0.1); }
 .filter-tab[data-filter="UP"].active      { border-color: var(--green);  color: var(--green);  background: rgba(34,197,94,0.1); }
 .filter-tab[data-filter="DOWN"].active    { border-color: var(--red);    color: var(--red);    background: rgba(239,68,68,0.1); }
@@ -226,7 +215,6 @@ html, body {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.15s;
-  letter-spacing: 0.3px;
 }
 
 .sloc-tab:hover  { border-color: var(--amber); color: var(--amber); }
@@ -235,11 +223,7 @@ html, body {
 /* ── Comparison Table ─────────────────────────────────────────────────── */
 .table-wrapper { overflow-x: auto; }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-}
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
 
 thead th {
   background: var(--surface2);
@@ -257,13 +241,13 @@ thead th {
   transition: color 0.15s;
 }
 
-thead th:hover   { color: var(--text); }
-thead th.sorted  { color: var(--blue); }
-thead th.num     { text-align: right; }
+thead th:hover  { color: var(--text); }
+thead th.sorted { color: var(--blue); }
+thead th.num    { text-align: right; }
 
 tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
-tbody tr:hover            { background: rgba(255,255,255,0.03); }
-tbody tr.row-flagged      { background: rgba(239,68,68,0.04); }
+tbody tr:hover             { background: rgba(255,255,255,0.03); }
+tbody tr.row-flagged       { background: rgba(239,68,68,0.04); }
 tbody tr.row-flagged:hover { background: rgba(239,68,68,0.08); }
 tbody tr:last-child        { border-bottom: none; }
 
@@ -305,25 +289,13 @@ td.neg  { color: var(--red); }
   white-space: nowrap;
 }
 
-.btn:hover         { border-color: var(--blue); color: var(--blue); }
-.btn.btn-export:hover { border-color: var(--green); color: var(--green); }
-.btn:disabled      { opacity: 0.5; cursor: default; }
+.btn:hover          { border-color: var(--blue); color: var(--blue); }
+.btn-export:hover   { border-color: var(--green); color: var(--green); }
 
-/* ── States ───────────────────────────────────────────────────────────── */
-.loading-state, .empty-state {
+/* ── Empty state ──────────────────────────────────────────────────────── */
+.empty-state {
   text-align: center;
-  padding: 60px 24px;
+  padding: 48px 24px;
   color: var(--muted);
-  font-size: 15px;
+  font-size: 14px;
 }
-
-.error-banner {
-  background: rgba(239,68,68,0.1);
-  border: 1px solid var(--red);
-  border-radius: 6px;
-  color: var(--red);
-  padding: 12px 16px;
-  font-size: 13px;
-}
-
-.hidden { display: none !important; }
