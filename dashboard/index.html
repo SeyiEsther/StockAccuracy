@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stock Accuracy Monitor</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Chart.js loaded from CDN — no install required -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ── Header ─────────────────────────────────────────────────────── -->
+  <header class="app-header">
+    <div class="header-left">
+      <h1 class="app-title">Stock Accuracy Monitor</h1>
+      <span class="app-subtitle">ZMM_LI009 / WIP Stock Rep JF &mdash; Rittal CSM Plymouth</span>
+    </div>
+    <div class="header-right">
+      <span class="last-updated" id="last-updated">Last updated: <strong>—</strong></span>
+      <button class="btn" id="btn-refresh">&#x27F3; Refresh</button>
+      <button class="btn btn-export" id="btn-export">&#x2193; Export CSV</button>
+    </div>
+  </header>
+
+  <!-- ── Main ───────────────────────────────────────────────────────── -->
+  <main class="app-main">
+
+    <div id="error-banner" class="error-banner hidden"></div>
+
+    <!-- Loading state -->
+    <div id="loading-state" class="loading-state">Loading stock data&hellip;</div>
+
+    <!-- Main content (hidden until data loads) -->
+    <div id="main-content" class="hidden">
+
+      <!-- Summary cards -->
+      <div class="summary-cards">
+        <div class="card" style="border-top-color:#3b82f6">
+          <span class="card-value" id="card-total"   style="color:#3b82f6">—</span>
+          <span class="card-label">Total Tracked</span>
+        </div>
+        <div class="card" style="border-top-color:#ef4444">
+          <span class="card-value" id="card-flagged" style="color:#ef4444">—</span>
+          <span class="card-label">Flagged</span>
+        </div>
+        <div class="card" style="border-top-color:#8b5cf6">
+          <span class="card-value" id="card-new"     style="color:#8b5cf6">—</span>
+          <span class="card-label">New</span>
+        </div>
+        <div class="card" style="border-top-color:#f59e0b">
+          <span class="card-value" id="card-missing" style="color:#f59e0b">—</span>
+          <span class="card-label">Missing</span>
+        </div>
+      </div>
+
+      <!-- Top-changes chart -->
+      <div class="chart-section">
+        <div class="section-title">Top Changes (% Movement) &mdash; hover a bar for detail</div>
+        <div class="chart-wrapper">
+          <canvas id="changes-chart"></canvas>
+        </div>
+      </div>
+
+      <!-- Table + filters -->
+      <div class="table-section">
+
+        <div class="filter-bar">
+          <!-- Row 1: status filters + search + threshold -->
+          <div class="filter-row">
+            <div class="filter-tabs">
+              <button class="filter-tab active" data-filter="ALL">All</button>
+              <button class="filter-tab"        data-filter="FLAGGED">Flagged</button>
+              <button class="filter-tab"        data-filter="UP">Up Only</button>
+              <button class="filter-tab"        data-filter="DOWN">Down Only</button>
+              <button class="filter-tab"        data-filter="NEW">New</button>
+              <button class="filter-tab"        data-filter="MISSING">Missing</button>
+            </div>
+            <div class="filter-controls">
+              <input class="search-input" id="search" type="text" placeholder="Search material or description&hellip;" />
+              <div class="threshold-control">
+                <label for="threshold">Flag threshold</label>
+                <input id="threshold" type="number" min="1" max="100" step="1" value="10" />
+                <span>%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 2: area (SLoc) quick-pick — populated by JS -->
+          <div class="sloc-row">
+            <span class="sloc-label">Area:</span>
+            <div id="sloc-buttons" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+          </div>
+        </div>
+
+        <div class="table-meta" id="table-meta">Showing — materials</div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th data-sort="materialNumber">Material <span class="sort-icon">⇅</span></th>
+                <th data-sort="description">Description <span class="sort-icon">⇅</span></th>
+                <th data-sort="sLoc">SLoc <span class="sort-icon">⇅</span></th>
+                <th data-sort="yesterdayQty" class="num">Yesterday <span class="sort-icon">⇅</span></th>
+                <th data-sort="todayQty"     class="num">Today <span class="sort-icon">⇅</span></th>
+                <th data-sort="delta"        class="num">Delta <span class="sort-icon">▼</span></th>
+                <th data-sort="pctChange"    class="num sorted">% Change <span class="sort-icon">▼</span></th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+          </table>
+        </div>
+
+      </div><!-- /table-section -->
+    </div><!-- /main-content -->
+  </main>
+
+  <footer class="app-footer">
+    Stock Accuracy Monitor &middot; ZMM_LI009 &middot; Rittal CSM Plymouth &middot; v1.0
+  </footer>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
