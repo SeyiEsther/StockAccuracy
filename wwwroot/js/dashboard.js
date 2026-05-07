@@ -128,6 +128,10 @@
       return d.row.description + " (" + d.row.materialNumber + ") — SLoc " + d.row.sLoc;
     });
 
+    // Flat threshold lines — one value per label so they stretch the full width
+    var thresholdHigh = labels.map(function () { return  threshold; });
+    var thresholdLow  = labels.map(function () { return -threshold; });
+
     var ctx = document.getElementById("changes-chart").getContext("2d");
     if (chart) chart.destroy();
 
@@ -135,18 +139,44 @@
       type: "line",
       data: {
         labels: labels,
-        datasets: [{
-          data:               values,
-          pointBackgroundColor: pointColors,
-          pointBorderColor:   pointColors,
-          pointRadius:        6,
-          pointHoverRadius:   9,
-          borderColor:        "#3b82f6",
-          backgroundColor:    "rgba(59,130,246,0.08)",
-          borderWidth:        2,
-          fill:               true,
-          tension:            0.3,
-        }]
+        datasets: [
+          // Upper threshold line (+10%)
+          {
+            data:        thresholdHigh,
+            borderColor: "rgba(239,68,68,0.6)",
+            borderWidth: 1,
+            borderDash:  [6, 4],
+            pointRadius: 0,
+            fill:        false,
+            tension:     0,
+            label:       "+" + threshold + "% threshold",
+          },
+          // Lower threshold line (-10%)
+          {
+            data:        thresholdLow,
+            borderColor: "rgba(239,68,68,0.6)",
+            borderWidth: 1,
+            borderDash:  [6, 4],
+            pointRadius: 0,
+            fill:        false,
+            tension:     0,
+            label:       "-" + threshold + "% threshold",
+          },
+          // Main data line
+          {
+            data:                values,
+            pointBackgroundColor: pointColors,
+            pointBorderColor:    pointColors,
+            pointRadius:         6,
+            pointHoverRadius:    9,
+            borderColor:         "#3b82f6",
+            backgroundColor:     "rgba(59,130,246,0.08)",
+            borderWidth:         2,
+            fill:                true,
+            tension:             0.3,
+            label:               "% change",
+          }
+        ]
       },
       options: {
         responsive: true,
@@ -154,6 +184,7 @@
         plugins: {
           legend: { display: false },
           tooltip: {
+            filter: function (item) { return item.datasetIndex === 2; },
             callbacks: {
               title: function (items) { return fullLabels[items[0].dataIndex]; },
               label: function (item) {
