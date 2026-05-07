@@ -112,7 +112,7 @@
   }
 
   // ── Chart ──────────────────────────────────────────────────────────────
-  var BAR_COLORS = { UP: "#22c55e", DOWN: "#ef4444", NEW: "#8b5cf6", MISSING: "#f59e0b", OK: "#4b5563" };
+  var POINT_COLORS = { UP: "#22c55e", DOWN: "#ef4444", NEW: "#8b5cf6", MISSING: "#f59e0b", OK: "#4b5563" };
 
   function renderChart() {
     var chartData = allRows
@@ -121,10 +121,10 @@
       .sort(function (a, b) { return Math.abs(b.row.pctChange) - Math.abs(a.row.pctChange); })
       .slice(0, 12);
 
-    var labels     = chartData.map(function (d) { return truncate(d.row.description, 20); });
-    var values     = chartData.map(function (d) { return parseFloat(d.row.pctChange.toFixed(1)); });
-    var colors     = chartData.map(function (d) { return BAR_COLORS[d.status] || BAR_COLORS.OK; });
-    var fullLabels = chartData.map(function (d) {
+    var labels      = chartData.map(function (d) { return truncate(d.row.description, 20); });
+    var values      = chartData.map(function (d) { return parseFloat(d.row.pctChange.toFixed(1)); });
+    var pointColors = chartData.map(function (d) { return POINT_COLORS[d.status] || POINT_COLORS.OK; });
+    var fullLabels  = chartData.map(function (d) {
       return d.row.description + " (" + d.row.materialNumber + ") — SLoc " + d.row.sLoc;
     });
 
@@ -132,10 +132,21 @@
     if (chart) chart.destroy();
 
     chart = new Chart(ctx, {
-      type: "bar",
+      type: "line",
       data: {
         labels: labels,
-        datasets: [{ data: values, backgroundColor: colors, borderRadius: 3, borderSkipped: false }]
+        datasets: [{
+          data:               values,
+          pointBackgroundColor: pointColors,
+          pointBorderColor:   pointColors,
+          pointRadius:        6,
+          pointHoverRadius:   9,
+          borderColor:        "#3b82f6",
+          backgroundColor:    "rgba(59,130,246,0.08)",
+          borderWidth:        2,
+          fill:               true,
+          tension:            0.3,
+        }]
       },
       options: {
         responsive: true,
